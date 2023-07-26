@@ -1,0 +1,9 @@
+MySQL:
+  username: root
+  password: 123123
+  db: MiniOSS
+  host: 127.0.0.1
+  port: 3306
+
+Server: 127.0.0.1
+Port: 8080

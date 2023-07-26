@@ -1,2 +1,2 @@
-# MiniOSS
-a Mini project for practice golang
+# a mini project for pratice golfing
+
