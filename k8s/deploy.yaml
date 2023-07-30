@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    svc: myapp
+  name: myapp-api
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      svc: myapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        messagequeue: rocket
+        svc: myapp
+    spec:
+      containers:
+        - image: myapp:v1.0
+          imagePullPolicy: IfNotPresent
+          name: myapp
+          args: ["-run"]
+          resources: {}
+          env:
+            - name: DB_HOST
+              value: bcs-saas-common.rdsm2dtgpd4vweo.rds.bj.baidubce.com
+            - name: DB_USER
+              value: bcs_saas_faas_rw
+            - name: DB_PORT
+              value: '3306'
+            - name: DB_DATABASE
+              value: bcs_saas_faas
+            - name: DB_PASSWORD
+              value: vFu3VmlKzyZtMeZP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: fission-svc
+      serviceAccountName: fission-svc
+      terminationGracePeriodSeconds: 10

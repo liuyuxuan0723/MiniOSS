@@ -1,9 +1,10 @@
-package handler
+package service
 
 import (
-	"awesomeProject/model"
-	"awesomeProject/repo"
-	"awesomeProject/util"
+	"MiniOSS/internal/common"
+	"MiniOSS/internal/model"
+	"MiniOSS/internal/repo"
+	"MiniOSS/internal/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -19,7 +20,7 @@ func GetFileInfo(c *gin.Context) {
 
 func IsFileExists(c *gin.Context) {
 	// 检查temp文件夹中是否存在md5，或者接入redis后可查
-	c.JSON(http.StatusOK, new(Response))
+	c.JSON(http.StatusOK, new(common.Response))
 }
 
 func DownloadFile(c *gin.Context) {
@@ -50,10 +51,10 @@ func DownloadFile(c *gin.Context) {
 func UploadFile(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, new(Response).ERROR().SetMsg("Error writing file to response"))
+		c.JSON(http.StatusInternalServerError, new(common.Response).ERROR().SetMsg("Error writing file to response"))
 		return
 	}
-	md5, err := util.MD5(file)
+	md5, err := utils.MD5(file)
 
 	fileMeta := &model.FileMeta{
 		MD5:      md5,
@@ -63,19 +64,19 @@ func UploadFile(c *gin.Context) {
 	}
 	err = repo.CreateFile(fileMeta)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, new(Response).ERROR().SetMsg("filed to create file"))
+		c.JSON(http.StatusInternalServerError, new(common.Response).ERROR().SetMsg("filed to create file"))
 	}
 	err = c.SaveUploadedFile(file, fileMeta.Location)
-	c.JSON(http.StatusOK, new(Response).OK())
+	c.JSON(http.StatusOK, new(common.Response).OK())
 }
 
 func DeleteFile(c *gin.Context) {
 	err := repo.DeleteFile(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, new(Response).ERROR())
+		c.JSON(http.StatusInternalServerError, new(common.Response).ERROR())
 		return
 	}
-	c.JSON(http.StatusOK, new(Response))
+	c.JSON(http.StatusOK, new(common.Response))
 }
 
 func UpdateFile(c *gin.Context) {
@@ -86,8 +87,8 @@ func UpdateFile(c *gin.Context) {
 	}
 	err := repo.UpdateFile(file)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, new(Response).ERROR())
+		c.JSON(http.StatusInternalServerError, new(common.Response).ERROR())
 		return
 	}
-	c.JSON(http.StatusOK, new(Response))
+	c.JSON(http.StatusOK, new(common.Response))
 }

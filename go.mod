@@ -1,4 +1,4 @@
-module awesomeProject
+module MiniOSS
 
 go 1.20
 

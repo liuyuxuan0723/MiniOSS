@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # 编译 Go 应用
-RUN go build -o main
+RUN go build -o main ./cmd/app/main.go
 
 # 暴露应用的端口号
 EXPOSE 8080

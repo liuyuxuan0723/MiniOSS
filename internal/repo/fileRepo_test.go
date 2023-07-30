@@ -1,8 +1,8 @@
 package repo
 
 import (
-	"awesomeProject/common"
-	"awesomeProject/config"
+	"MiniOSS/internal/config"
+	"MiniOSS/pkgs"
 	"fmt"
 	"testing"
 )
@@ -25,7 +25,7 @@ func TestQueryFileByCond(t *testing.T) {
 		},
 	}
 	config.LoadConfig()
-	common.MysqlInit()
+	pkgs.MysqlInit()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, _ := QueryFileByCond(tt.args.name, tt.args.location)

@@ -22,7 +22,7 @@ var MyConfig Config
 
 func LoadConfig() error {
 	// 打开YAML文件
-	path := "/Users/liuyuxuan/Documents/workbench/awesomeProject/config/config.yaml"
+	path := "./env.yaml"
 	file, err := os.Open(path)
 	if err != nil {
 		fmt.Printf("Failed to open file: %v\n", err)

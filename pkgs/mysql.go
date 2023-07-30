@@ -1,7 +1,7 @@
-package common
+package pkgs
 
 import (
-	"awesomeProject/config"
+	"MiniOSS/internal/config"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
